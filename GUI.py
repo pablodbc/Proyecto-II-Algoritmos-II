@@ -6,7 +6,7 @@ from PyQt4.phonon import *
 
 class Reproductor(QWidget):
 	def __init__(self):
-		#super(Reproductor, self).__init__()
+		super(Reproductor, self).__init__()
 		self.setWindowTitle(self.tr("Jose te odio"))
 		self.setMinimumSize(800,600)
 		vbox = QVBoxLayout(self)
