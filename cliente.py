@@ -81,14 +81,17 @@ class Cliente():
 			self.reproductor.setLista(self.reproductor.lista)
 
 if __name__ == '__main__':
+
 	if len(argv) != 2:
 		print "FATAL ERROR:"
 		print "> python reproductor.py <archivo>"
 		exit()
+
 	app = QApplication([])
 	app.setApplicationName("BMPE")	
 	BMPE = Cliente(argv[1])
 	flag = True
+
 	print "Bienvenido a BMPE :)"
 	while True:
 		print "Seleccione una de las siguientes opciones:"
@@ -111,8 +114,6 @@ if __name__ == '__main__':
 			except:
 				print "Opcion invalida, vuelva a intentarlo"
 		
-		if opcion == 8 : exit()
-
 		if opcion == 1:
 			print "Introduzca la ruta del archivo: ",
 			while True:
@@ -123,11 +124,6 @@ if __name__ == '__main__':
 				except:
 					print "Introduzca un archivo valido: ",
 		
-		if opcion == 9:
-			BMPE.reproductor.lista.mostrar()
-			print BMPE.indiceArtista.size
-			print BMPE.indiceGenero.size
-
 		if opcion == 2:
 			print "Introduzca el titulo de la cancion: ",
 			titulo = raw_input()
@@ -153,3 +149,10 @@ if __name__ == '__main__':
 
 		if opcion == 7:
 			BMPE.restaurarLista()
+
+		if opcion == 8 : exit()
+		
+		if opcion == 9:
+			BMPE.reproductor.lista.mostrar()
+			print BMPE.indiceArtista.size
+			print BMPE.indiceGenero.size
