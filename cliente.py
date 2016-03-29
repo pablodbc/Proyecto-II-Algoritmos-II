@@ -54,7 +54,7 @@ class Cliente():
 			print "El archivo no existe"
 			exit()
 		for linea in f:
-			datosCancion = linea[:-1].split("\t")
+			datosCancion = linea.strip("\n").split("\t")
 			if len(datosCancion) != 4:
 				print "ERROR: Formato de archivo invalido"
 				print "<titulo> [TAB] <artista> [TAB] <genero> [TAB] <ruta archivo de audio>"
