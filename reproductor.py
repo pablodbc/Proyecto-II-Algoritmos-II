@@ -7,7 +7,7 @@ class Reproductor:
 		self.lista = None
 		self.cancionActual = None
 		self.audioOutput = Phonon.AudioOutput(Phonon.MusicCategory)
-		Phonon.createPath(self.media, self.audioOutput)	
+		Phonon.createPath(self.media, self.audioOutput)
 	def Play(self):
 		self.media.play()
 	def Pause(self):
@@ -29,16 +29,18 @@ class Reproductor:
 		self.cancionActual = self.lista.head
 		self.media.setCurrentSource(Phonon.MediaSource(self.cancionActual.cancion.archivo))
 
+
 #app = QApplication([])
 #app.setApplicationName("BMPE")
 #t = listaReproduccion()
-#t.agregar(Cancion("a","c","a","Dead Inside.mp3"))
-#t.agregar(Cancion("b","b","b","Dead Inside.mp3"))
-#t.agregar(Cancion("c","a","c","Dead Inside.mp3"))
+##t.agregar(Cancion("a","c","a","b.mp3"))
+##t.agregar(Cancion("b","b","b","a.mp3"))
+##t.agregar(Cancion("c","a","c","b.mp3"))
+#t.agregar(Cancion("d","d","c","d.mp3"))
 #a = Reproductor()
 #a.setLista(t)
-#a.lista.mostrar()
-#print
-#a.lista.ordenarTitulo()
-#a.lista.ordenarArtista()
-#a.lista.mostrar()
+##print a.media.queue
+#a.Play()
+##print a.media.currentSource
+#while True:
+#	pass
