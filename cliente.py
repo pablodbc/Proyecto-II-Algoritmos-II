@@ -64,7 +64,7 @@ class Cliente():
 				print "ERROR: Especifique extension de archivo de audio"
 				exit()
 			elif ruta[1] != "mp3" and ruta[1] != "AVI" and ruta[1] != "OGG":
-				print "ERROR: Archivo de audio invalido"
+				print "ERROR: Extension de archivo de audio invalido"
 				exit()
 			else:
 				cancion = Cancion(datosCancion[0],datosCancion[1],datosCancion[2],datosCancion[3])
