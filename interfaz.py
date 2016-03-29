@@ -51,23 +51,21 @@ class Interfaz(QWidget):
 
 	def _play(self):
 		self.reproductor.Play()
-		self.tituloCancionActual.setText(self.reproductor.cancionActual.cancion.titulo)
-		self.artistaCancionActual.setText(self.reproductor.cancionActual.cancion.artista)
+		self.cambiarDatosCancionActual()
 	def _pause(self):
 		self.reproductor.Pause()
 	def _stop(self):
 		self.reproductor.Stop()
 	def _atras(self):
 		self.reproductor.Atras()
-		self.tituloCancionActual.setText(self.reproductor.cancionActual.cancion.titulo)
-		self.artistaCancionActual.setText(self.reproductor.cancionActual.cancion.artista)
+		self.cambiarDatosCancionActual()
 	def _siguiente(self):
 		self.reproductor.Siguiente()
+		self.cambiarDatosCancionActual()
+
+	def cambiarDatosCancionActual(self):
 		self.tituloCancionActual.setText(self.reproductor.cancionActual.cancion.titulo)
 		self.artistaCancionActual.setText(self.reproductor.cancionActual.cancion.artista)
-
-	def cambiarDatosCancionActual(self,datosCancion):
-		pass
 
 if __name__ == '__main__':
 	app = QApplication([])
