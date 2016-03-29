@@ -13,11 +13,11 @@ class Interfaz(QWidget):
 		self.tituloCancionActual  = QLabel("algo aqui (o nada) al principio",self)
 		self.artistaCancionActual = QLabel("algo aqui (o nada) al principio",self)
 
-		self.pause      = QPushButton(" ",self)
-		self.play       = QPushButton(" ",self)
-		self.stop       = QPushButton(" ",self)
-		self.atras      = QPushButton(" ",self)
-		self.siguiente  = QPushButton(" ",self)
+		self.pause      = QPushButton(self)
+		self.play       = QPushButton(self)
+		self.stop       = QPushButton(self)
+		self.atras      = QPushButton(self)
+		self.siguiente  = QPushButton(self)
 
 		# No sombrear
 		self.play.setFocusPolicy(Qt.NoFocus)
