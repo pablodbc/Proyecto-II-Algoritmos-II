@@ -24,8 +24,8 @@ class dlist:
 		return node
 
 class Indice:
-	def __init__(self):
-		self.size = 5
+	def __init__(self,size = 5):
+		self.size = size
 		self.slot = [dlist() for i in range(self.size)]
 		self.nodes = 0
 

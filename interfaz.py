@@ -13,11 +13,11 @@ class Interfaz(QWidget):
 		self.tituloCancionActual  = QLabel("algo aqui (o nada) al principio",self)
 		self.artistaCancionActual = QLabel("algo aqui (o nada) al principio",self)
 
-		self.pause      = QPushButton(self)
-		self.play       = QPushButton(self)
-		self.stop       = QPushButton(self)
-		self.atras      = QPushButton(self)
-		self.siguiente  = QPushButton(self)
+		self.pause      = QPushButton(" ",self)
+		self.play       = QPushButton(" ",self)
+		self.stop       = QPushButton(" ",self)
+		self.atras      = QPushButton(" ",self)
+		self.siguiente  = QPushButton(" ",self)
 
 		# No sombrear
 		self.play.setFocusPolicy(Qt.NoFocus)
@@ -43,11 +43,11 @@ class Interfaz(QWidget):
 		self.connect(self.siguiente, SIGNAL("clicked()"),self._siguiente)
 
 		# Diseno de botones
-		self.play.setStyleSheet("border: 0px; width: 50; height: 50; background-image: url(imagenes/play.png); background-position: center; background-repeat: no-repeat")
-		self.pause.setStyleSheet("border: 0px; width: 50; height: 50; background-image: url(imagenes/pause.png); background-position: center; background-repeat: no-repeat")
-		self.stop.setStyleSheet("border: 0px; width: 50; height: 50; background-image: url(imagenes/stop.png); background-position: center; background-repeat: no-repeat")
-		self.atras.setStyleSheet("border: 0px; width: 50; height: 50; background-image: url(imagenes/atras.png); background-position: center; background-repeat: no-repeat")
-		self.siguiente.setStyleSheet("border: 0px; width: 50; height: 50; background-image: url(imagenes/siguiente.png); background-position: center; background-repeat: no-repeat")
+		self.play.setStyleSheet("border: 0px; width: 50; height: 50; background-image: url(imagenes/play.svg); background-position: center; background-repeat: no-repeat")
+		self.pause.setStyleSheet("border: 0px; width: 50; height: 50; background-image: url(imagenes/pause.svg); background-position: center; background-repeat: no-repeat")
+		self.stop.setStyleSheet("border: 0px; width: 50; height: 50; background-image: url(imagenes/stop.svg); background-position: center; background-repeat: no-repeat")
+		self.atras.setStyleSheet("border: 0px; width: 50; height: 50; background-image: url(imagenes/previous.svg); background-position: center; background-repeat: no-repeat")
+		self.siguiente.setStyleSheet("border: 0px; width: 50; height: 50; background-image: url(imagenes/next.svg); background-position: center; background-repeat: no-repeat")
 
 	def _play(self):
 		self.reproductor.Play()
@@ -72,9 +72,9 @@ if __name__ == '__main__':
 	app.setApplicationName("hola")
 	ventana = Interfaz()
 	l = listaReproduccion()
-	l.agregar(Cancion("c","a","a","a.mp3"))
+	l.agregar(Cancion("c","a","a","gorilaz.mp3"))
 	l.agregar(Cancion("b","b","a","b.mp3"))
-	l.agregar(Cancion("a","c","a","a.mp3"))
+	l.agregar(Cancion("a","c","a","vcr.mp3"))
 	ventana.reproductor.setLista(l)
 	ventana.show()
 	app.exec_()
