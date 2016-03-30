@@ -1,5 +1,6 @@
 from reproductor import *
 from PyQt4.QtCore import *
+from PyQt4.QtGui import *
 from sys import *
 
 class Interfaz(QWidget):
@@ -9,6 +10,9 @@ class Interfaz(QWidget):
 		self.setWindowTitle("BMPE")
 		self.resize(600,600)
 		self.reproductor = Reproductor()
+		palette = QPalette()
+		palette.setColor(QPalette.Background,Qt.black)
+		self.setPalette(palette)
 		
 		self.tituloCancionActual  = QLabel("algo aqui (o nada) al principio",self)
 		self.artistaCancionActual = QLabel("algo aqui (o nada) al principio",self)
@@ -49,6 +53,13 @@ class Interfaz(QWidget):
 		self.atras.setStyleSheet("border: 0px; width: 50; height: 50; background-image: url(imagenes/previous.svg); background-position: center; background-repeat: no-repeat")
 		self.siguiente.setStyleSheet("border: 0px; width: 50; height: 50; background-image: url(imagenes/next.svg); background-position: center; background-repeat: no-repeat")
 
+		#Barra de botones
+		barraDeBotones = QHBoxLayout()
+		barraDeBotones.addWidget(self.play)
+		barraDeBotones.addWidget(self.stop)
+		barraDeBotones.addWidget(self.pause)
+		barraDeBotones.addWidget(self.siguiente)
+		barraDeBotones.addWidget(self.atras)
 	def _play(self):
 		self.reproductor.Play()
 		self.cambiarDatosCancionActual()
