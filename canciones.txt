@@ -1,1 +1,6 @@
-Dead Inside	Muse	Desconocido	Dead Inside.mp3
+Dead Inside	Muse	Rock	Dead Inside.mp3
+Melancholy Hill	Gorillaz	Alternative Rock	gorillaz.mp3
+Everglow	Coldplay	Alternative Rock	everglow.mp3
+The Raven That Refused To Sing	Steven Wilson	Progressive Rock	raven.mp3
+What About Me	Snarky Puppy	Jazz Fusion	snarky.mp3
+Stadium Arcadium	Red Hot Chili Peppers	Funk Rock	red.mp3
