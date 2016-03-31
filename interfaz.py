@@ -1,4 +1,3 @@
-from rep import *
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from sys import *
@@ -6,13 +5,13 @@ from cliente import *
 
 class Interfaz(QWidget):
 
-	def __init__(self,reproductor,indiceArtista,indiceGenero,listaOriginal):
+	def __init__(self,reproductor,indiceGenero,indiceArtista,listaOriginal):
 		super(Interfaz, self).__init__()
 		self.setWindowTitle("JP Music Player")
 		self.setFixedSize(400,600)
 		self.reproductor = reproductor
 		self.indiceArtista = indiceArtista
-		slef.indiceGenero = indiceGenero
+		self.indiceGenero = indiceGenero
 		self.listaOriginal = listaOriginal
 		palette = QPalette()
 		palette.setBrush(QPalette.Background,QBrush(QPixmap("imagenes/fondo.jpg")))
@@ -128,6 +127,8 @@ class Interfaz(QWidget):
 		self.layoutPrincipal.insertSpacing(0,10)
 		self.layoutPrincipal.insertSpacing(2,10)
 
+		self.cargarListaReproduccion(listaOriginal)
+
 	def _play(self):
 		self.reproductor.Play()
 		self.cambiarDatosCancionActual()
@@ -139,6 +140,7 @@ class Interfaz(QWidget):
 		self.playClick = False
 	def _stop(self):
 		self.reproductor.Stop()
+		self.playClick = False
 	def _atras(self):
 		self.reproductor.Atras()
 		self.cambiarDatosCancionActual()
@@ -162,7 +164,7 @@ class Interfaz(QWidget):
 			node = node.next
 		self.tablaCanciones.resizeRowsToContents()
 
-	def actualizar(self, time):
+	def actualizar(self, time):	
 		tiempoTranscurrido = self.reproductor.media.currentTime()
 		tiempo1 = QTime(0, (tiempoTranscurrido / 60000) % 60, (tiempoTranscurrido / 1000) % 60)
 		tiempo2 = QTime(0, (self.reproductor.media.totalTime() / 60000) % 60, (self.reproductor.media.totalTime() / 1000) % 60)
@@ -173,33 +175,21 @@ class Interfaz(QWidget):
 	def seEstaReproduciendoMusica(self):
 		return self.playClick
 
+	def administrarInterfazGrafica(self,flag):
+		self.pause.setEnabled(flag)
+		self.play.setEnabled(flag)
+		self.stop.setEnabled(flag)
+		self.atras.setEnabled(flag)
+		self.siguiente.setEnabled(flag)
+
 	def keyPressEvent(self, event):
 		if event.key() == Qt.Key_Return:
 			if not self.seEstaReproduciendoMusica():
-				while True:
-					print "i"
-
-#if __name__ == '__main__':
-#	app = QApplication([])
-#	app.setApplicationName("JP Music Player")
-#	QFontDatabase.addApplicationFont("font/TTF files/Track.ttf")
-#	ventana = Interfaz()
-#	l = listaReproduccion()
-#	l.agregar(Cancion("melancholy hill","gorillaz","algo","gorillaz.mp3"))
-#	l.agregar(Cancion("algo","b","a","b.mp3"))
-#	l.agregar(Cancion("vcr","xx","indie","vcr.mp3"))
-#	l.agregar(Cancion("hill","gorillaz","algo","gorillaz.mp3"))
-#	l.agregar(Cancion("algo adicional","b","a","b.mp3"))
-#	l.agregar(Cancion("vcr otro mas","xx","indie","vcr.mp3"))
-#	l.agregar(Cancion("melancholy hill bla","gorillazasdasdasdasdasdasdasd1","algo","gorillaz.mp3"))
-#	l.agregar(Cancion("abcabc","b","a","b.mp3"))
-#	l.agregar(Cancion("hola a todos","xx","indie","vcr.mp3"))
-#	l.agregar(Cancion("hill hill","gorillaz","algo","gorillaz.mp3"))
-#	l.agregar(Cancion("algo algo","b","a","b.mp3"))
-#	l.agregar(Cancion("vcr vcr","xx","indie","vcr.mp3"))
-#	ventana.cargarListaReproduccion(l)
-#	ventana.show()
-#	app.exec_()
-
-
-		
+				estadoConsola(True)
+				self.administrarInterfazGrafica(False)
+				menuConsola(self)
+				QCoreApplication.processEvents()
+				self.administrarInterfazGrafica(True)
+				estadoConsola(False)
+			else:
+				advertenciaConsola()

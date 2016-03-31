@@ -1,57 +1,63 @@
-from interfaz import *
 from indice import *
-from reproductor import *
+from rep import *
+from listaReproduccion import *
 
 def initCliente(nombreArchivo):
+	mensajeBienvenida()
+	estadoConsola(False)
+	reproductor = Reproductor()
+	indiceGenero  = Indice()
+	indiceArtista = Indice()
+	reproductor.lista = listaReproduccion()
+	listaOriginal = listaReproduccion()
+	importar(reproductor,indiceGenero,indiceArtista,nombreArchivo,1)
+	x = reproductor.lista.head
+	for i in range(reproductor.lista.size):
+		listaOriginal.agregar_final(x.cancion)
+		x = x.next
+	return reproductor, indiceGenero, indiceArtista, listaOriginal
+
+def mensajeBienvenida():
 	print "Bienvenido a JP Music Player :)"
-	self.reproductor = Reproductor()
-	self.indiceGenero  = Indice()
-	self.indiceArtista = Indice()
-	self.reproductor.lista = listaReproduccion()
-	self.listaOriginal = listaReproduccion()
-	importar(self,nombreArchivo,1)
-
-	# Inicializar interfaz
-	self.ventana = Interfaz(self.reproductor, self.indiceArtista, self.indiceGenero, self.listaOriginal)
-	self.ventana.cargarListaReproduccion(self.reproductor.lista)
-
-	x = self.reproductor.lista.head
-	for i in range(self.reproductor.lista.size):
-		self.listaOriginal.agregar_final(x.cancion)
-		x = x.next
 	
-def restaurarLista(self):
-	self.reproductor.lista = listaReproduccion()
-	x = self.listaOriginal.head
-	for i in range(self.listaOriginal.size):
-		self.reproductor.lista.agregar_final(x.cancion)
+def restaurarLista(reproductor,listaOriginal):
+	reproductor.lista = listaReproduccion()
+	x = listaOriginal.head
+	for i in range(listaOriginal.size):
+		reproductor.lista.agregar_final(x.cancion)
 		x = x.next
+	reproductor.cancionActual = listaOriginal.head
 
-def eliminarCancion(self,titulo,artista):
+def eliminarCancion(reproductor,titulo,artista):
 	node = Cancion(titulo,artista,None,None)
-	self.reproductor.lista.eliminar(node)
+	reproductor.lista.eliminar(node)
+	if reproductor.cancionActual.cancion.titulo.lower() == titulo.lower() and reproductor.cancionActual.cancion.artista.lower() == artista.lower():
+		reproductor.media.setCurrentSource(Phonon.MediaSource(reproductor.cancionActual.next.cancion.archivo))
+	reproductor.cancionActual = reproductor.lista.head
 
-def ordenarPorTitulo(self):
-	self.reproductor.lista.ordenarTitulo()
+def ordenarPorTitulo(reproductor):
+	reproductor.lista.ordenarTitulo()
+	reproductor.cancionActual = reproductor.lista.head
 
-def ordenarPorArtista(self):
-	self.reproductor.lista.ordenarArtista()
+def ordenarPorArtista(reproductor):
+	reproductor.lista.ordenarArtista()
+	reproductor.cancionActual = reproductor.lista.head
 
-def buscarGenero(self,genero):
-	x = self.indiceGenero.search(genero)
+def buscarGenero(indiceGenero,reproductor,genero):
+	x = indiceGenero.search(genero)
 	if x is not None:
-		self.reproductor.setLista(x)
+		reproductor.setLista(x)
 	else:
 		print "No se encontraron resultados."
 
-def buscarArtista(self,artista):
-	x = self.indiceArtista.search(artista)
+def buscarArtista(indiceArtista,reproductor,artista):
+	x = indiceArtista.search(artista)
 	if x is not None:
-		self.reproductor.setLista(x)
+		reproductor.setLista(x)
 	else:
 		print "No se encontraron resultados"
 
-def importar(cliente,nombreArchivo,flag = 0):
+def importar(reproductor,indiceGenero,indiceArtista,nombreArchivo,flag = 0):
 	lista = listaReproduccion()
 	try:
 		f = open(nombreArchivo,"r")
@@ -78,14 +84,29 @@ def importar(cliente,nombreArchivo,flag = 0):
 
 	x = lista.head
 	for i in range(lista.size):
-		cliente.reproductor.lista.agregar_final(x.cancion)
-		cliente.indiceGenero.insertGenero(x.cancion)
-		cliente.indiceArtista.insertArtista(x.cancion)
+		reproductor.lista.agregar_final(x.cancion)
+		indiceGenero.insertGenero(x.cancion)
+		indiceArtista.insertArtista(x.cancion)
 		x = x.next
 	if flag == 1:
-		cliente.reproductor.setLista(cliente.reproductor.lista)
+		reproductor.setLista(reproductor.lista)
 
-def menuConsola(self):
+def estadoConsola(activo):
+	if activo:
+		print "############ CONSOLA ACTIVA ############"
+	else:
+		print "############ CONSOLA INACTIVA ############"
+		print "Presione ENTER sobre ventana del reproductor para activar"
+
+
+def advertenciaConsola():
+	print "Se esta reproduciendo musica. No puede utilizar la consola"
+
+def menuConsola(ventana):
+	reproductor = ventana.reproductor
+	indiceGenero = ventana.indiceGenero
+	indiceArtista = ventana.indiceArtista
+	listaOriginal = ventana.listaOriginal
 	print "Seleccione una de las siguientes opciones:"
 	print"""
 		1. Importar una lista de canciones
@@ -94,8 +115,9 @@ def menuConsola(self):
 		4. Ordenar las canciones de la lista por artista
 		5. Buscar todas las canciones de un artista
 		6. Buscar todas las canciones de un genero
-		7. Restaurar lista anterior
-		8. Salir 
+		7. Restaurar lista original
+		8. Volver al reproductor
+		9. Salir 
 		"""
 
 	while True:
@@ -106,14 +128,14 @@ def menuConsola(self):
 			break
 		except:
 			print "Opcion invalida, vuelva a intentarlo"
-	
+
 	if opcion == 1:
 		print "Introduzca la ruta del archivo: ",
 		while True:
 			try:
 				archivo = raw_input()
-				self.importar(archivo)
-				self.ventana.cargarListaReproduccion(self.reproductor.lista)
+				importar(reproductor,indiceGenero,indiceArtista,archivo)
+				ventana.cargarListaReproduccion(reproductor.lista)
 				break
 			except:
 				print "Introduzca un archivo valido: ",
@@ -123,25 +145,37 @@ def menuConsola(self):
 		titulo = raw_input()
 		print "Introduzca el artista de la cancion: ",
 		artista = raw_input()
-		self.eliminarCancion(titulo,artista)
+		eliminarCancion(reproductor,titulo,artista)
+		ventana.cargarListaReproduccion(reproductor.lista)
 	
 	if opcion == 3:
-		self.ordenarPorTitulo()
+		ordenarPorTitulo(reproductor)
+		ventana.cargarListaReproduccion(reproductor.lista)
+		reproductor.media.setCurrentSource(Phonon.MediaSource(reproductor.cancionActual.cancion.archivo))
 	
 	if opcion == 4:
-		self.ordenarPorArtista()
+		ordenarPorArtista(reproductor)
+		ventana.cargarListaReproduccion(reproductor.lista)
+		reproductor.media.setCurrentSource(Phonon.MediaSource(reproductor.cancionActual.cancion.archivo))
 	
 	if opcion == 5:
 		print "Ingrese el nombre del artista: ",
 		artista = raw_input()
-		self.buscarArtista(artista.lower())
+		buscarArtista(indiceArtista,reproductor,artista.lower())
+		ventana.cargarListaReproduccion(reproductor.lista)
 	
 	if opcion == 6:
 		print "Ingrese el nombre del genero: ",
 		genero = raw_input()
-		self.buscarGenero(genero)
+		buscarGenero(indiceGenero,reproductor,genero)
+		ventana.cargarListaReproduccion(reproductor.lista)
 	
 	if opcion == 7:
-		self.restaurarLista()
+		restaurarLista(reproductor,listaOriginal)
+		ventana.cargarListaReproduccion(reproductor.lista)
+		reproductor.media.setCurrentSource(Phonon.MediaSource(reproductor.cancionActual.cancion.archivo))
 	
-	if opcion == 8 : exit()	
+	if opcion == 8:
+		pass
+
+	if opcion == 9 : exit()	

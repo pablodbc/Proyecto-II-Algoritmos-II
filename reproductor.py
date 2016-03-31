@@ -11,6 +11,8 @@ if __name__ == '__main__':
 
 	app = QApplication([])
 	app.setApplicationName("JP Music Player")
-	JPMP = Cliente(argv[1])
-	JPMP.ventana.show()
+	(reproductor,indiceGenero,indiceArtista,listaOriginal) = initCliente(argv[1])
+	ventana = Interfaz(reproductor,indiceGenero,indiceArtista,listaOriginal)
+	ventana.show()
+	pyqtRemoveInputHook()
 	exit(app.exec_())
