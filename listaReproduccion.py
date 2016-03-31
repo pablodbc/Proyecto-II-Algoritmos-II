@@ -5,11 +5,11 @@ class nodoLista:
 		self.prev = None
 		self.next = None
 
-
 class listaReproduccion:
 	def __init__(self):
 		self.head = None
 		self.size = 0
+
 	def agregar(self,cancion):
 		node = nodoLista(cancion)
 		if self.head == None:
@@ -25,6 +25,7 @@ class listaReproduccion:
 				self.head.prev = node
 				self.head = node
 				self.size+=1
+
 	def agregar_final(self,cancion):
 		node = nodoLista(cancion)
 		if self.head == None:
@@ -46,6 +47,7 @@ class listaReproduccion:
 			if x.cancion.esIgual(cancion) : return x
 			x = x.next
 		return None
+
 	def eliminar(self,cancion):
 		x = self.buscar(cancion)
 		if x != None:
@@ -53,6 +55,7 @@ class listaReproduccion:
 			x.next.prev = x.prev
 			if x == self.head : self.head = x.next
 			self.size-=1
+
 	def comp(self,a,b,c):
 		if c == 0:
 			return a.cancion.esMenorTitulo(b.cancion)
